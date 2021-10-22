@@ -3,6 +3,8 @@
   "description": "A Gnome Shell extension for monitoring ZFS pool status.",
   "uuid": "gnome-shell-extension-zfs-status-monitor@chris.hubick.com",
   "shell-version": [
+    "40",
     "41"
-  ]
+  ],
+  "url": "https://github.com/hubick/gnome-shell-extension-zfs-status-monitor"
 }
