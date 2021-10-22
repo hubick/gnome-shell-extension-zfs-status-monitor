@@ -1,0 +1,8 @@
+{
+  "name": "ZFS Status Monitor",
+  "description": "A Gnome Shell extension for monitoring ZFS pool status.",
+  "uuid": "gnome-shell-extension-zfs-status-monitor@chris.hubick.com",
+  "shell-version": [
+    "41"
+  ]
+}
