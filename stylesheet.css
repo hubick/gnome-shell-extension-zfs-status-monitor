@@ -1,0 +1,28 @@
+
+.zfs_pool_separator {
+  color: black;
+}
+
+.zfs_pool_online {
+  color: green;
+}
+
+.zfs_pool_offline {
+  color: black;
+}
+
+.zfs_pool_degraded {
+  color: orange;
+}
+
+.zfs_pool_faulted {
+  color: red;
+}
+
+.zfs_pool_removed {
+  color: black;
+}
+
+.zfs_pool_unavail {
+  color: black;
+}
