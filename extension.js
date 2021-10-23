@@ -14,47 +14,67 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 
 
-const Indicator = GObject.registerClass(
+const ZFSPoolStatusIndicator = GObject.registerClass(
 
-  class Indicator extends PanelMenu.Button {
+  class ZFSPoolStatusIndicator extends PanelMenu.Button {
 
-    _init() {
-      super._init(0.0, 'ZFS Status Monitor');
+    _init(zfs_pool_name) {
+      super._init(0.0, 'ZFS Pool ' + zfs_pool_name + ' Status Indicator');
 
-      this._label = new St.Label({
+      var child_labels = new St.BoxLayout();
+
+      child_labels.add_child(new St.Label({
         'y_align': Clutter.ActorAlign.CENTER,
-        'text': 'MyZFSPool',
-        'style_class': 'label'
-      });
-      this.add_child(this._label);
+        'text': '[',
+        'style_class': 'zfs_pool_separator'
+      }));
 
+      this._pool_name_label = new St.Label({
+        'y_align': Clutter.ActorAlign.CENTER,
+        'text': zfs_pool_name,
+        'style_class': 'zfs_pool_unavail'
+      });
+      child_labels.add_child(this._pool_name_label);
+
+      child_labels.add_child(new St.Label({
+        'y_align': Clutter.ActorAlign.CENTER,
+        'text': ']',
+        'style_class': 'zfs_pool_separator'
+      }));
+
+      this.add_child(child_labels);
+
+      return;
     }
 
-  } // class Indicator
+  } // class ZFSPoolStatusIndicator
 
-); // const Indicator
+); // const ZFSPoolStatusIndicator
 
 
-class Extension {
+class ZFSStatusMonitorExtension {
 
   constructor(uuid) {
     this._uuid = uuid;
+    return;
   }
 
   enable() {
-    this._indicator = new Indicator();
-    Main.panel.addToStatusArea(this._uuid, this._indicator);
+    this._zfs_pool_status_indicator = new ZFSPoolStatusIndicator('MyZFSPool');
+    Main.panel.addToStatusArea(this._uuid, this._zfs_pool_status_indicator);
+    return;
   }
 
   disable() {
-    this._indicator.destroy();
-    this._indicator = null;
+    this._zfs_pool_status_indicator.destroy();
+    this._zfs_pool_status_indicator = null;
+    return;
   }
 
-} // class Extension
+} // class ZFSStatusMonitorExtension
 
 
 function init(meta) {
-  return new Extension(meta.uuid);
+  return new ZFSStatusMonitorExtension(meta.uuid);
 }
 
