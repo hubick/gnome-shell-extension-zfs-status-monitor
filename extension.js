@@ -60,7 +60,11 @@ const ZFSPoolStatusIndicator = GObject.registerClass(
     }
 
     update() {
-      this._pool_name_label.style_class = 'zfs_pool_' + this.get_pool_state().toLowerCase();
+      const current_pool_state = this.get_pool_state();
+      if (current_pool_state != this._previous_pool_state) {
+        this._pool_name_label.style_class = 'zfs_pool_' + current_pool_state.toLowerCase();
+        this._previous_pool_state = current_pool_state;
+      }
       return;
     }
 
