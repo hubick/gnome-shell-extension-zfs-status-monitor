@@ -12,6 +12,7 @@ const { GObject, St, Clutter } = imports.gi;
 
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
+const GLib = imports.gi.GLib;
 
 
 const ZFSPoolStatusIndicator = GObject.registerClass(
@@ -20,8 +21,9 @@ const ZFSPoolStatusIndicator = GObject.registerClass(
 
     _init(zfs_pool_name) {
       super._init(0.0, 'ZFS Pool ' + zfs_pool_name + ' Status Indicator');
+      this._zfs_pool_name = zfs_pool_name;
 
-      var child_labels = new St.BoxLayout();
+      const child_labels = new St.BoxLayout();
 
       child_labels.add_child(new St.Label({
         'y_align': Clutter.ActorAlign.CENTER,
@@ -44,6 +46,21 @@ const ZFSPoolStatusIndicator = GObject.registerClass(
 
       this.add_child(child_labels);
 
+      this.update();
+
+      return;
+    }
+
+    get_pool_state() {
+      try {
+        let fileContents = GLib.file_get_contents('/proc/spl/kstat/zfs/' + this._zfs_pool_name + '/state');
+        if (fileContents[0] === true) return String(fileContents[1]);
+      } catch (e) { }
+      return 'UNAVAIL';
+    }
+
+    update() {
+      this._pool_name_label.style_class = 'zfs_pool_' + this.get_pool_state().toLowerCase();
       return;
     }
 
