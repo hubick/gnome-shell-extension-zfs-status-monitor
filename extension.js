@@ -132,6 +132,7 @@ class ZFSStatusMonitorExtension {
     this._previous_pool_names = [];
     this.update_pools();
     Main.panel.addToStatusArea(this._uuid, this._status_indicator);
+    this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT_IDLE, 60, this.update_pools.bind(this));
     return;
   }
 
@@ -177,12 +178,18 @@ class ZFSStatusMonitorExtension {
 
     this._previous_pool_names = current_pool_names;
 
-    return;
+    return GLib.SOURCE_CONTINUE;
   }
 
   disable() {
-    this._status_indicator.destroy();
-    this._status_indicator = null;
+    if (this._timeout != null) {
+      GLib.source_remove(this._timeout);
+      this._timeout = null;
+    }
+    if (this._status_indicator != null) {
+      this._status_indicator.destroy();
+      this._status_indicator = null;
+    }
     this._previous_pool_names = [];
     return;
   }
