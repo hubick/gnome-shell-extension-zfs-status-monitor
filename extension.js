@@ -60,15 +60,12 @@ const ZFSPoolStatus = GObject.registerClass(
       try {
         let fileContents = GLib.file_get_contents('/proc/spl/kstat/zfs/' + this._pool_name + '/state');
         if (fileContents[0] === true) return ByteArray.toString(fileContents[1]);
-      } catch (e) {
-        // logError(e);
-      }
+      } catch (e) { }
       return 'UNAVAIL';
     }
 
     update_pool_status() {
       const current_pool_state = this.get_pool_state();
-      log('Current Pool State: ' + current_pool_state);
       if (current_pool_state != this._previous_pool_state) {
         this._pool_name_label.style_class = 'zfs_pool_' + current_pool_state.toLowerCase();
         this._previous_pool_state = current_pool_state;
@@ -101,7 +98,7 @@ const ZFSStatusIndicator = GObject.registerClass(
     }
 
     get_pool(pool_name) {
-      for (const pool of this._pools) {
+      for (const pool of this._pools.get_children()) {
         if (pool.get_pool_name() == pool_name) {
           return pool;
         }
