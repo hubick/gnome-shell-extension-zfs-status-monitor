@@ -32,12 +32,24 @@ const ZFSPoolStatus = GObject.registerClass(
         'style_class': 'zfs_pool_separator'
       }));
 
-      this._pool_name_label = new St.Label({
+      child_labels.add_child(new St.Label({
         'y_align': Clutter.ActorAlign.CENTER,
         'text': this._pool_name,
-        'style_class': 'zfs_pool_unavail'
+        'style_class': 'zfs_pool_name'
+      }));
+
+      child_labels.add_child(new St.Label({
+        'y_align': Clutter.ActorAlign.CENTER,
+        'text': '=',
+        'style_class': 'zfs_pool_separator'
+      }));
+
+      this._pool_state_label = new St.Label({
+        'y_align': Clutter.ActorAlign.CENTER,
+        'text': 'UNAVAIL',
+        'style_class': 'zfs_pool_state_unavail'
       });
-      child_labels.add_child(this._pool_name_label);
+      child_labels.add_child(this._pool_state_label);
 
       child_labels.add_child(new St.Label({
         'y_align': Clutter.ActorAlign.CENTER,
@@ -59,7 +71,7 @@ const ZFSPoolStatus = GObject.registerClass(
     get_pool_state() {
       try {
         let fileContents = GLib.file_get_contents('/proc/spl/kstat/zfs/' + this._pool_name + '/state');
-        if (fileContents[0] === true) return ByteArray.toString(fileContents[1]);
+        if (fileContents[0] === true) return ByteArray.toString(fileContents[1]).trim();
       } catch (e) { }
       return 'UNAVAIL';
     }
@@ -67,7 +79,8 @@ const ZFSPoolStatus = GObject.registerClass(
     update_pool_status() {
       const current_pool_state = this.get_pool_state();
       if (current_pool_state != this._previous_pool_state) {
-        this._pool_name_label.style_class = 'zfs_pool_' + current_pool_state.toLowerCase();
+        this._pool_state_label.set_text(current_pool_state);
+        this._pool_state_label.set_style_class_name('zfs_pool_state_' + current_pool_state.toLowerCase());
         this._previous_pool_state = current_pool_state;
       }
       return;

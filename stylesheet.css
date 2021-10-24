@@ -1,28 +1,32 @@
 
 .zfs_pool_separator {
-  color: black;
+  color: inherit;
 }
 
-.zfs_pool_online {
+.zfs_pool_name {
+  color: inherit;
+}
+
+.zfs_pool_state_online {
   color: green;
 }
 
-.zfs_pool_offline {
-  color: black;
+.zfs_pool_state_offline {
+  color: grey;
 }
 
-.zfs_pool_degraded {
+.zfs_pool_state_degraded {
   color: orange;
 }
 
-.zfs_pool_faulted {
+.zfs_pool_state_faulted {
   color: red;
 }
 
-.zfs_pool_removed {
-  color: black;
+.zfs_pool_state_removed {
+  color: grey;
 }
 
-.zfs_pool_unavail {
-  color: black;
+.zfs_pool_state_unavail {
+  color: grey;
 }
