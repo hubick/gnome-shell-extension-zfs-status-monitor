@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-const { GObject, St, Clutter } = imports.gi;
+const { GObject, St, Clutter, Gio } = imports.gi;
 
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
@@ -136,7 +136,19 @@ class ZFSStatusMonitorExtension {
   }
 
   get_pool_names() {
-    return ['MyZFSPool'];
+    const pool_names = [];
+    const proc_zfs_folder = Gio.File.new_for_path('/proc/spl/kstat/zfs/');
+    if ((proc_zfs_folder.query_exists(null)) && (proc_zfs_folder.query_file_type(Gio.FileQueryInfoFlags.NONE, null) == Gio.FileType.DIRECTORY)) {
+      const zfs_folder_child_enumerator = proc_zfs_folder.enumerate_children(Gio.FILE_ATTRIBUTE_STANDARD_NAME + ',' + Gio.FILE_ATTRIBUTE_STANDARD_TYPE, Gio.FileQueryInfoFlags.NONE, null);
+      let zfs_folder_child_info;
+      while (zfs_folder_child_info = zfs_folder_child_enumerator.next_file(null)) {
+        if (zfs_folder_child_info.get_file_type() != Gio.FileType.DIRECTORY) continue;
+        const zfs_folder_child_dir = zfs_folder_child_enumerator.get_child(zfs_folder_child_info);
+        if (!zfs_folder_child_dir.get_child('state').query_exists(null)) continue;
+        pool_names.push(zfs_folder_child_dir.get_basename());
+      }
+    }
+    return pool_names;
   }
 
   update_pools() {
