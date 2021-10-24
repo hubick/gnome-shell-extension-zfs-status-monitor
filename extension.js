@@ -2,10 +2,10 @@
  * Copyright 2021-2021 by Chris Hubick. All Rights Reserved.
  * 
  * This work is licensed under the terms of the "GNU GENERAL PUBLIC LICENSE"
- * version 3, as published by the Free Software Foundation, a copy of which
- * you should have received in the file LICENSE.txt.
+ * version 3 (or any later version), as published by the Free Software Foundation,
+ * a copy of which you should have received in the file LICENSE.txt.
  *
- * SPDX-License-Identifier: GPL-3.0-only
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 const { GObject, St, Clutter, Gio } = imports.gi;
