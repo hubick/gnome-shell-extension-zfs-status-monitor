@@ -2,6 +2,7 @@
   "name": "ZFS Status Monitor",
   "description": "Display status of ZFS filesystem pools currently present on the system, updating every 60 seconds.",
   "uuid": "gnome-shell-extension-zfs-status-monitor@chris.hubick.com",
+  "version": 1,
   "shell-version": [
     "40",
     "41"
