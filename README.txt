@@ -1,5 +1,7 @@
 Gnome Shell Extension - ZFS Status Monitor
 ------------------------------------------
 
-A Gnome Shell extension for monitoring ZFS pool status based on `/proc/spl/kstat/zfs/*/state`.
+Display status of ZFS filesystem pools currently present on the system, updating every 60 seconds.
+
+Utilizes data from `/proc/spl/kstat/zfs/*/state`.
 
