@@ -5,7 +5,8 @@
   "version": 1,
   "shell-version": [
     "40",
-    "41"
+    "41",
+    "42"
   ],
   "url": "https://github.com/hubick/gnome-shell-extension-zfs-status-monitor"
 }
